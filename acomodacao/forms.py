@@ -1,5 +1,7 @@
 from django import forms
 
+from .models import Curso
+
 
 class HomeForm(forms.Form):
     ra = forms.CharField(label="RA", max_length=13)
@@ -24,3 +26,29 @@ class SelectActionForm(forms.Form):
         ('R', 'Retirar Diciplina'),
         ('I', 'Incluir Disciplina')
     ))
+
+
+
+class SelectCursoForm(forms.Form):
+    curso = forms.ModelChoiceField(
+        label='Da grade de qual curso é a Disciplina?',
+        queryset=Curso.objects.all())
+
+class RetirarDisciplinaForm(forms.Form):
+    def __init__(self, curso_id, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['disciplina'].queryset = Curso.objects.get(pk=curso_id).disciplinas.all()
+    disciplina = forms.ModelChoiceField(
+        label='Disciplina',
+        queryset=None)
+    dp = forms.BooleanField(
+        label='A disciplina que você deseja alterar é uma DP?',
+        required=False)
+
+class IncluirDisciplinaForm(forms.Form):
+    def __init__(self, curso_id, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['disciplina'].queryset = Curso.objects.get(pk=curso_id).disciplinas.all()
+    disciplina = forms.ModelChoiceField(
+        label='Disciplina',
+        queryset=None)

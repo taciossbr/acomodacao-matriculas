@@ -1,10 +1,20 @@
 {% extends 'acomodacao/base.html' %}
 
 {% block content %}
+
+<p>{{ sub_id | default:"na" }}</p>
+{% if request.session.solicitacoes %}
+{% for solicitacao in request.session.solicitacoes %}
+<li>{{ solicitacao.acao }} - {{ solicitacao.disciplina }}</li>
+{% endfor %}
+{% endif %}
 <form method="POST">
     {% csrf_token %}
     {{form.as_p}}
     <button>Enviar</button>
 </form>
+
+<a href="{% url 'revisar_submissao' %}">Revisar Submissão</a>
+<a href="{% url 'home' %}">Voltar</a>
 
 {% endblock %}

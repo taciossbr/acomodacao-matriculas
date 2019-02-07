@@ -1,0 +1,26 @@
+{% extends 'acomodacao/base.html' %}
+
+{% block content %}
+
+<p>{{ sub_id | default:"na" }}</p>
+<table>
+<tr>
+    <th>Sigla</th>
+    <th>Disciplina</th>
+    <th>Ação</th>
+</tr>
+{% for solicitacao in solicitacoes %}
+<tr>
+    <td>{{ solicitacao.disciplina.sigla }}</td>
+    <td>{{ solicitacao.disciplina.nome }}</td>
+    <td>{% if solicitacao.acao == "R" %}Retirar{% else %}Incluir{% endif %}</td>
+</tr>
+
+{% endfor %}
+</table>
+
+Protocolo: {{ submissao.id }}<br>
+Data/Hora: {{ submissao.data_hora }}<br>
+
+<a href="{% url 'submeter' %}">Realisar Submissão</a>
+{% endblock %}

@@ -41,4 +41,4 @@ class SolicitacaoAlteracao(models.Model):
 
 class Submissao(models.Model):
     aluno = models.ForeignKey('Aluno', on_delete=models.CASCADE)
-    data_hora = models.DateTimeField(auto_now_add=True)
+    data_hora = models.DateTimeField(auto_now=True)
