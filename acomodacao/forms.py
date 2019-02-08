@@ -8,7 +8,8 @@ class HomeForm(forms.Form):
 
 class CadastroForm(forms.Form):
     ra = forms.CharField(max_length=13)
-    nome = forms.CharField(max_length=60)
+    primeiro_nome = forms.CharField(max_length=60)
+    ultimo_nome = forms.CharField(max_length=60)
     email_contato = forms.EmailField()
     senha = forms.CharField(max_length=16, widget=forms.PasswordInput)
     confirmacao_senha = forms.CharField(max_length=16, 

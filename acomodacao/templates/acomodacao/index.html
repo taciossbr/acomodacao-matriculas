@@ -2,9 +2,22 @@
 
 {% block content %}
 <form method="GET">
+    <div class="form-text">
+        <p>Protocolo de Submissão: <b>{{ sub_id }}</b></p>
+        {% if request.session.solicitacoes %}
+        {% for solicitacao in request.session.solicitacoes %}
+        <li>{{ solicitacao.acao }} - {{ solicitacao.disciplina }}</li>
+        {% endfor %}
+        {% endif %}
+    </div>
     <!-- {% csrf_token %} -->
-    {{form.as_p}}
-    <button>Enviar</button>
+    {% for field in form %}
+        <div class="form-group">
+            <label class="mylabel">{{ field.label }}</label>
+            {{ field }}
+        </div>
+    {% endfor %}
+    <button class='btn-orange ml2 bl'>Enviar</button>
 </form>
 
 {% endblock %}

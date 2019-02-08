@@ -45,12 +45,13 @@ def cadastro_aluno_view(request, ra):
         data = request.POST
         if form.is_valid():
             if data['senha'] == data['confirmacao_senha']:
-                user=User.objects.create_user(username=data['ra'].strip(),
-                                                password=data['senha'].strip())
+                user = User.objects.create_user(username=data['ra'].strip(),
+                                                password=data['senha'].strip(),
+                                                first_name=data['primeiro_nome'].strip(),
+                                                last_name=data['ultimo_nome'].strip(),
+                                                email=data['email_contato'].strip())
                 aluno = Aluno.objects.create(ra=data['ra'].strip(),
-                                            nome=data['nome'].strip(),
-                                            email_contato=data['email_contato'].strip(),
-                                            user=user)
+                                             user=user)
                 messages.success(request, 'Cadastro realizado com sucesso!')
                 return redirect(home_view)
             else:
@@ -77,7 +78,7 @@ def login_aluno_view(request, ra):
             aluno = Aluno.objects.get(pk=cd['ra'])
             if user is not  None and aluno is not None:
                 login(request, user)
-                messages.success(request, 'Bem Vindo {}!'.format(aluno.nome))
+                messages.success(request, 'Bem Vindo {}!'.format(user.get_full_name()))
                 return redirect(home_view)
             else:
                 messages.error(request, 'RA ou senha inválidos!')
@@ -156,6 +157,7 @@ def incluir_disciplina_view(request, curso_id):
 @require_session
 def revisar_submissao_view(request):
 
+    sub_id = request.session.get('submissao')
     solicitacoes = []
     for data in request.session['solicitacoes']:
         submissao = Submissao.objects.get(pk=data['submissao'])
@@ -168,7 +170,8 @@ def revisar_submissao_view(request):
         solicitacoes.append(solicitacao)
 
     return render(request, 'acomodacao/revisar.html', {
-        'solicitacoes': solicitacoes
+        'solicitacoes': solicitacoes,
+        'sub_id': sub_id
     })
 
 

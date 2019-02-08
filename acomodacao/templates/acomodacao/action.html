@@ -1,20 +1,34 @@
 {% extends 'acomodacao/base.html' %}
 
-{% block content %}
+{% block menu %}
+{% if sub_id %}
+<a href="{% url 'revisar_submissao' %}" class='btn ml2 bl'>Revisar Submissão</a>
+{% endif %}
+<a href="{% url 'home' %}" class='btn ml2 bl'>Home</a>
+{% endblock %}
 
-<p>{{ sub_id | default:"na" }}</p>
-{% if request.session.solicitacoes %}
-{% for solicitacao in request.session.solicitacoes %}
-<li>{{ solicitacao.acao }} - {{ solicitacao.disciplina }}</li>
-{% endfor %}
+{% block content %}
+{% if sub_id %}
+<div class="form-text">
+    <p>Protocolo de Submissão: <b>{{ sub_id }}</b></p>
+    {% if request.session.solicitacoes %}
+    {% for solicitacao in request.session.solicitacoes %}
+    <p>{{ solicitacao.acao }} - {{ solicitacao.disciplina }}</p>
+    {% endfor %}
+    {% endif %}
+</div>
 {% endif %}
 <form method="POST">
     {% csrf_token %}
-    {{form.as_p}}
-    <button>Enviar</button>
+    {% for field in form %}
+        <div class="form-group">
+            <label class="mylabel">{{ field.label }}</label>
+            {{ field }}
+        </div>
+    {% endfor %}
+    <button class='btn-orange ml2 bl'>Enviar</button>
 </form>
 
-<a href="{% url 'revisar_submissao' %}">Revisar Submissão</a>
-<a href="{% url 'home' %}">Voltar</a>
+    
 
 {% endblock %}

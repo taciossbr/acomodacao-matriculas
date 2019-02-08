@@ -1,24 +1,28 @@
 {% extends 'acomodacao/base.html' %}
 
 {% block content %}
+<div class="form-text">
+    <p>Protocolo de Submissão: <b>{{ sub_id }}</b></p>
+</div>
 
-<p>{{ sub_id | default:"na" }}</p>
+<div class="form-text last">
+    <table>
+    <tr>
+        <th>Sigla</th>
+        <th>Disciplina</th>
+        <th>Ação</th>
+    </tr>
+    {% for solicitacao in solicitacoes %}
+    <tr>
+        <td>{{ solicitacao.disciplina.sigla }}</td>
+        <td>{{ solicitacao.disciplina.nome }}</td>
+        <td>{% if solicitacao.acao == "R" %}Retirar
+            {% if solicitacao.dp %}(DP){% endif %}
+            {% else %}Incluir{% endif %}</td>
+    </tr>
+    {% endfor %}
+    </table>
+</div>
 
-<table>
-<tr>
-    <th>Sigla</th>
-    <th>Disciplina</th>
-    <th>Ação</th>
-</tr>
-{% for solicitacao in solicitacoes %}
-<tr>
-    <td>{{ solicitacao.disciplina.sigla }}</td>
-    <td>{{ solicitacao.disciplina.nome }}</td>
-    <td>{% if solicitacao.acao == "R" %}Retirar{% else %}Incluir{% endif %}</td>
-</tr>
-{% endfor %}
-</table>
-
-
-<a href="{% url 'submeter' %}">Realisar Submissão</a>
+<a href="{% url 'submeter' %}" class="btn btn-orange ml2 bl">Realisar Submissão</a>
 {% endblock %}

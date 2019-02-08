@@ -6,8 +6,8 @@ from django.contrib.auth.models import User
 class Aluno(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     ra = models.CharField(max_length=13, primary_key=True)
-    nome = models.CharField(max_length=60, null=False)
-    email_contato = models.EmailField()
+    # nome = models.CharField(max_length=60, null=False)
+    # email_contato = models.EmailField()
 
     def __str__(self):
         return "{} ({})".format(self.nome, self.ra)

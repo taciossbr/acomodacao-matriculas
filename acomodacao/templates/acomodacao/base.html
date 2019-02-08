@@ -5,21 +5,47 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{{ title | default:"Acomodação de Vagas" }}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'acomodacao/style.css' %}">
 </head>
 <body>
+    <header>
     {% if user.is_authenticated %}
-        <p>RA: {{ user.get_username }}</p>
+        <div class='user-info'>
+            <p>{{ user.get_full_name }}</p>
+            <p>RA: {{ user.get_username }}</p>
+        </div>
     {% endif %}
-
-    {% if messages %}
-    <ul class="messages">
-        {% for message in messages %}
-        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-        {% endfor %}
-    </ul>
+    <div>
+    {% if user.is_authenticated %}
+    <a href="{% url 'logout' %}" class='btn btn-white-orange ml2 bl'>Logout</a>
     {% endif %}
-    <a href="{% url 'logout' %}">Logout</a>
-    {% block content %}
+    {% block menu %}
     {% endblock %}
+    </div>
+    </header>
+    <div class="container">
+        <div class="title">
+            <h1>{{ title | default:"Acomodação de Vagas"}}</h1>
+        </div>
+        <!-- {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %} -->
+        {% if messages %}
+        <div class="form-text">
+            {% for message in messages %}
+            <span{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+                {{ message }}
+            </span>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% block content %}
+        {% endblock %}
+    </div>
 </body>
 </html>

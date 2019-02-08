@@ -3,8 +3,13 @@
 {% block content %}
 <form method="POST">
     {% csrf_token %}
-    {{form.as_p}}
-    <button>Enviar</button>
+    {% for field in form %}
+        <div class="form-group">
+            <label class="mylabel">{{ field.label }}</label>
+            {{ field }}
+        </div>
+    {% endfor %}
+    <button class='btn-orange ml2 bl'>Enviar</button>
 </form>
 
 {% endblock %}

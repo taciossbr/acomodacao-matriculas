@@ -1,8 +1,7 @@
 {% extends 'acomodacao/base.html' %}
 
 {% block content %}
-
-<p>{{ sub_id | default:"na" }}</p>
+<div class="form-text">
 <table>
 <tr>
     <th>Sigla</th>
@@ -18,9 +17,14 @@
 
 {% endfor %}
 </table>
+</div>
+<div class="form-text">
+<table>
+<tr>
+<td>Protocolo</td><td>{{ submissao.id }}</td>
+</tr>
+<td>Data/Hora</td><td>{{ submissao.data_hora }}</td>
+</table>
 
-Protocolo: {{ submissao.id }}<br>
-Data/Hora: {{ submissao.data_hora }}<br>
-
-<a href="{% url 'submeter' %}">Realisar Submissão</a>
+</div>
 {% endblock %}
